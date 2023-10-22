@@ -1,24 +1,39 @@
-import { useState } from 'react'
-import {BrowserRouter ,Routes,Route} from "react-router-dom";
-import {Provider} from "react-redux"
-import store from './store';
+import { useEffect, useState } from 'react'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux"
+
 import Header from './Components/header/Header'
 import './App.css'
 import Login from './Components/Login/Login';
 
-function App() {
- 
+import Home from './Components/Home/Home';
+import Register from './Components/Register/Register';
+import { loadUser } from './actions/User';
 
+
+function App() {
+  const dispatch = useDispatch();
+  let {isAuthenticated}=useSelector((state)=>state.user)
+ 
+ useEffect(()=>{
+  dispatch(loadUser());
+ },[
+
+ ])
+  
   return (
     <>
-    <Provider store={store}>
-     <BrowserRouter>
-     <Header />
-       <Routes>
-        <Route path='/' element={<Login />} />
-       </Routes>
-     </BrowserRouter>
-     </Provider>
+
+      <BrowserRouter>
+      {
+        (isAuthenticated &&     <Header />)
+      }
+        <Routes>
+          <Route path='/' element={isAuthenticated?<Home />:<Login />} />
+          <Route path='/register' element={<Register />} />
+        </Routes>
+      </BrowserRouter>
+
     </>
   )
 }

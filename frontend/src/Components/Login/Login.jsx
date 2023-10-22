@@ -7,8 +7,7 @@ import { loginUser } from "../../actions/User";
 function Login() {
     const dispatch=useDispatch();
     const [inputData,setInputData]=useState({
-       email:"",
-       password:""
+     
     })
     function handleInputData(e){
         const {name,value}=e.target;
@@ -20,8 +19,11 @@ function Login() {
     const loginHandler=(e)=>{
              e.preventDefault();
              
+             const formData=inputData;
              
-             dispatch(loginUser(inputData))
+             dispatch(loginUser(formData))
+             setInputData({})
+            
     }
     
     return (
@@ -34,7 +36,7 @@ function Login() {
                         name="email"
                         placeholder="email"
                         required
-                        value={inputData.email}
+                        value={inputData.email || " "}
                         onChange={handleInputData}
                     />
                     <input
@@ -42,7 +44,7 @@ function Login() {
                         name="password"
                         placeholder="password"
                         required 
-                        value={inputData.password}
+                        value={inputData.password || ""}
                          onChange={handleInputData}
                         />
                     <Link to="/forgot/password">
