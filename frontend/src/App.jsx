@@ -13,13 +13,16 @@ import { loadUser } from './actions/User';
 
 function App() {
   const dispatch = useDispatch();
-  let {isAuthenticated}=useSelector((state)=>state.user)
  
- useEffect(()=>{
-  dispatch(loadUser());
- },[
-
- ])
+  useEffect(()=>{
+   
+     dispatch(loadUser());
+   },[
+  
+   ])
+    
+   const {isAuthenticated}=useSelector((state)=>state.user);
+   
   
   return (
     <>

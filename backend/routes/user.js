@@ -10,7 +10,7 @@ router.route('/logout').get(logout);
 router.route('/update/password').put(isLogin,updatePassword);
 router.route('/update/profile').put(isLogin,updateProfile);
 router.route('/delete/me').delete(isLogin,deleteMyProfile);
-router.route('/me').get(isLogin,myProfile);
+router.get('/me',isLogin,myProfile);
 router.route('/user/:id').get(isLogin,getUserProfile);
 router.route('/users').get(getAllUsers);
 module.exports=router;

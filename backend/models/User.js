@@ -67,7 +67,7 @@ userSchema.methods.matchPassword = async function(plainTextPassword,userpassword
 userSchema.methods.generateToken = async function (){
 
     const token=await jsonwebtoken.sign({ _id: this._id }, process.env.JWT_SECRET,{
-        expiresIn:"10hr",
+        expiresIn:"24hr",
     });
    
     return token;

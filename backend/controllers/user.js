@@ -27,13 +27,13 @@ exports.register = async (req, res) => {
         const token = await user.generateToken();
 
 
-
-
-        return res.status(201).cookie("token", token, {
+        res.cookie("myytoken", token, {
             expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000)//expires after 90 days
             , secure: true,
             httpOnly: true
-        }).json({
+        })
+
+        return res.status(201).json({
             success: true,
             message: "User loggedin successfully",
             user,
@@ -84,16 +84,18 @@ exports.login = async (req, res, next) => {
         }
 
         const token = await user.generateToken();
-  
-        res.cookie("token",token,{
-            expires:new Date(Date.now()+90*24*60*60*1000),
-            httpOnly:true
-         })
+        const cookieOptions = {
+            maxAge: 7 * 24 * 60 * 60 * 1000,//7days
+            httpOnly: true,
+            secure: true
+         }
+         console.log(token);
+        res.cookie("myytoken",token,cookieOptions)
         return res.status(201).json({
             success: true,
             message: "User loggedin successfully",
             user,
-            token,
+           
         })
 
     } catch (err) {
@@ -166,7 +168,7 @@ exports.followUser = async (req, res, next) => {
 exports.logout = async (req, res, next) => {
     try {
 
-        res.status(200).cookie("token", null, {
+        res.status(200).cookie("myytoken", null, {
             expires: new Date(Date.now()),
             httpOnly: true,
         }).json({
@@ -313,7 +315,6 @@ exports.deleteMyProfile = async (req, res, next) => {
 exports.myProfile = async (req, res, next) => {
     try {
 
-        console.log("got ")
        
         const user = await User.findById(req.user._id).populate("posts");
         if (!user) {
