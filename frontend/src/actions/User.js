@@ -1,17 +1,14 @@
 
+import axiosinstance from "../helpers/axiosInstance";
 import axios from "axios";
-
 export const loginUser = (loginInfo) => async (dispatch) => {
     try {
 
         dispatch({
             type: "loginRequest"
         })
-        const  data  = await axios.post("http://localhost:3200/api/v1/login", loginInfo, {
-            
-            withCredentials: true
-        })
-        console.log("-->login data", data)
+        const  data  = await axiosinstance.post('/login',loginInfo);
+      
         dispatch({
             type: "loginSuccess",
             payload: data.user
@@ -31,14 +28,8 @@ export const loadUser = () => async (dispatch) => {
         dispatch({
             type: "loadUserRequest"
         })
-        const data = await axios.get('http://localhost:3200/api/v1/me'
-            ,
-           {
-            withCredentials: true,
-            
-           }
-        )
-        console.log("--->data kcn", data)
+        const {data} = await axiosinstance.get('/me')
+        
         dispatch({
             type: "loadUserSuccess",
             payload: data.user
@@ -59,9 +50,7 @@ export const registerUser = (registerInfo) => async (dispatch) => {
         dispatch({
             type: "registerRequest"
         })
-        const { data } = await axios.post("http://localhost:3200/api/v1/register", registerInfo, {
-            withCredentials: true,
-        })
+        
         console.log("-->registred data", data)
         dispatch({
             type: "registerSuccess",
@@ -82,9 +71,8 @@ export const getpostoffollowing = () => async (dispatch) => {
 
         })
 
-        const { data } = await axios.get("http://localhost:3200/api/v1/post",{
-           withCredentials:true
-        })
+        const { data } = await axiosinstance.get('/post')
+       
 
         dispatch({
             type: "postoffollowingSuccess",
@@ -97,5 +85,29 @@ export const getpostoffollowing = () => async (dispatch) => {
             payload: err,
         })
         console.log("postfollow", err)
+    }
+}
+
+export const getAllUsers = () => async (dispatch) => {
+    try {
+        dispatch({
+            type: 'allUsersRequest',
+
+        })
+
+    
+        const {data}=await axiosinstance.get('/users');
+       
+        dispatch({
+            type: "allUsersSuccess",
+            payload: data.users
+        })
+        
+    } catch (err) {
+        dispatch({
+            type: "allUsersFailure",
+            payload: err,
+        })
+        console.log("allUsers", err)
     }
 }

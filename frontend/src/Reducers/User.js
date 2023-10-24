@@ -5,16 +5,31 @@ const initialState = {
 const loginRequest = createAction('loginRequest');
 const loginSuccess = createAction('loginSuccess');
 const loginFailure = createAction('loginFailure');
+
+
+
 const registerRequest = createAction('registerRequest');
 const registerSuccess = createAction('registerSuccess');
 const registerFailure = createAction('registerFailure');
+
+
+
 const loadUserRequest = createAction('loadUserRequest');
 const loadUserSuccess = createAction('loadUserSuccess');
 const loadUserFailure = createAction('loadUserFailure');
+
+
+
 const postoffollowingRequest = createAction('postoffollowingRequest');
 const postoffollowingSuccess = createAction('postoffollowingSuccess');
 const postoffollowingFailure = createAction('postoffollowingFailure')
 const clearErrors = createAction('clearErrors');
+
+
+
+const allUsersRequest=createAction('allUsersRequest');
+const allUsersSuccess=createAction('allUsersSuccess');
+const allUsersFailure=createAction('allUsersFailure');
 
 export const userReducer = createReducer(initialState, (builder) => {
    builder.addCase(loginRequest, (state) => {
@@ -42,6 +57,7 @@ export const userReducer = createReducer(initialState, (builder) => {
       state.loading = true;
    }).addCase(loadUserSuccess, (state, action) => {
       state.loading = false;
+      state.user=action.payload;
       state.isAuthenticated = true
    }).addCase(loadUserFailure, (state, action) => {
       state.loading = false;
@@ -58,10 +74,25 @@ export const postoffollowingReducers = createReducer({}, (builder) => {
       state.loading = true;
    }).addCase(postoffollowingSuccess, (state, action) => {
       state.loading = false;
-      state.post = action.payload;
+      state.posts = action.payload;
    }).addCase(postoffollowingFailure, (state, action) => {
       state.loading = false;
       state.error = action.payload;
+   }).addCase(clearErrors, (state) => {
+      state.error=null;
+   })
+})
+
+export const getAllUsersReducers=createReducer(initialState,(builder)=>{
+   builder.addCase(allUsersRequest,(state,action)=>{
+        state.loading=true;
+   }).addCase(allUsersSuccess,(state,action)=>{
+         state.loading=false;
+         state.users=action.payload;
+
+   }).addCase(allUsersFailure,(state,action)=>{
+       state.loading=false;
+       state.error=action.payload;
    }).addCase(clearErrors, (state) => {
       state.error=null;
    })

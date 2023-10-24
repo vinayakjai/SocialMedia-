@@ -115,7 +115,7 @@ exports.getPostofFollowing = async (req, res, next) => {
             owner: {
                 $in: user.followings
             }
-        });
+        }).populate("owner likes comments.user");
 
         res.status(201).json({
             success: true,

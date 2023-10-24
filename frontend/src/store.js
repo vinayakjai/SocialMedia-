@@ -1,6 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit"
-import { postoffollowingReducers, userReducer } from "./Reducers/User";
+import {getAllUsersReducers, postoffollowingReducers, userReducer } from "./Reducers/User";
 import { getDefaultMiddleware } from "@reduxjs/toolkit";
+import { likeReducer } from "./Reducers/Post";
+
 const initialState = {
 
 }
@@ -9,7 +11,9 @@ const store = configureStore(
     {
      reducer:{
         user:userReducer,
-        postoffollowing:postoffollowingReducers
+        postoffollowing:postoffollowingReducers,
+        allUsers:getAllUsersReducers,
+        like:likeReducer
      },
      middleware: (getDefaultMiddleware) => getDefaultMiddleware( {serializableCheck: false,}),
     }
