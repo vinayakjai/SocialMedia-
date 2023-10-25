@@ -60,8 +60,8 @@ exports.login = async (req, res, next) => {
 
             return;
         }
-        const user = await User.findOne({ email }).select("+password");
-
+        const user = await User.findOne({ email }).select("+password").populate("posts followers followings");
+        console.log(user);
         if (!user) {
             res.status(400).json({
                 success: false,
@@ -89,7 +89,7 @@ exports.login = async (req, res, next) => {
             httpOnly: true,
             secure: true
          }
-         console.log(token);
+         
         res.cookie("myytoken",token,cookieOptions)
         return res.status(201).json({
             success: true,
@@ -316,7 +316,7 @@ exports.myProfile = async (req, res, next) => {
     try {
 
        
-        const user = await User.findById(req.user._id).populate("posts");
+        const user = await User.findById(req.user._id).populate("posts followers followings");
         if (!user) {
             res.status(401).json({
                 success: false,
@@ -378,4 +378,28 @@ exports.getAllUsers = async (req, res) => {
             message: err.message
         })
     }
+}
+
+exports.getMyAllPosts=async (req,res,next)=>{
+   try{
+  
+    const user=await User.findById(req.user._id);
+    
+     const posts=[];
+     for(let i=0;i<user.posts.length;i++){
+        const post=await Post.findById(user.posts[i]).populate("likes comments.user");
+        posts.push(post);
+     }
+
+    res.status(201).json({
+        success:true,
+        posts
+
+    })
+   }catch(err){
+    return res.status(402).json({
+        success:false,
+        message:err
+    })
+   }
 }

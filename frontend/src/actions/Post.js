@@ -101,3 +101,33 @@ export const deleteCommentOnPost = (idofpost, commentId) => async (dispatch) => 
         console.log("deleteComment", err)
     }
 }
+
+
+
+
+
+export const getMyPost = () => async (dispatch) => {
+    try {
+        dispatch({
+            type: 'postRequest',
+
+        })
+
+       
+        const { data } = await axiosinstance.get(`/my/posts`);
+        
+        
+
+        dispatch({
+            type: "postSuccess",
+            payload: data.posts
+        })
+
+    } catch (err) {
+        dispatch({
+            type: "postFailure",
+            payload: err.response.data.message,
+        })
+        console.log("posts", err)
+    }
+}

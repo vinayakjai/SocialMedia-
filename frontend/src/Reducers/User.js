@@ -31,6 +31,14 @@ const allUsersRequest=createAction('allUsersRequest');
 const allUsersSuccess=createAction('allUsersSuccess');
 const allUsersFailure=createAction('allUsersFailure');
 
+
+
+
+
+const logoutUserRequest=createAction('logoutUserRequest');
+const logoutUserSuccess=createAction('logoutUserSuccess');
+const logoutUserFailure=createAction('logoutUserFailure');
+
 export const userReducer = createReducer(initialState, (builder) => {
    builder.addCase(loginRequest, (state) => {
       state.loading = true;
@@ -59,10 +67,17 @@ export const userReducer = createReducer(initialState, (builder) => {
       state.loading = false;
       state.user=action.payload;
       state.isAuthenticated = true
-   }).addCase(loadUserFailure, (state, action) => {
+   }).addCase(logoutUserRequest, (state, action) => {
+      state.loading = true;
+     
+   }).addCase(logoutUserSuccess, (state, action) => {
+      state.loading = false;
+      state.user=null;
+      state.isAuthenticated = false;
+   }).addCase(logoutUserFailure, (state, action) => {
       state.loading = false;
       state.error = action.payload;
-      state.isAuthenticated = false;
+      state.isAuthenticated = true;
    }).addCase(clearErrors, (state) => {
       state.error=null;
    })

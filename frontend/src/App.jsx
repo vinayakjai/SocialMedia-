@@ -9,14 +9,17 @@ import Login from './Components/Login/Login';
 import Home from './Components/Home/Home';
 import Register from './Components/Register/Register';
 import { loadUser } from './actions/User';
+import Account from './Components/Account/Account';
 
 
 function App() {
   const dispatch = useDispatch();
  
-  useEffect(()=>{
+  useEffect( ()=>{
    
-     dispatch(loadUser());
+     
+        dispatch(loadUser());
+       
    },[
   
    ])
@@ -34,6 +37,7 @@ function App() {
         <Routes>
           <Route path='/' element={isAuthenticated?<Home />:<Login />} />
           <Route path='/register' element={<Register />} />
+          <Route path='/account' element={isAuthenticated?<Account />:<Login />} />
         </Routes>
       </BrowserRouter>
 

@@ -22,6 +22,13 @@ const deleteCommentSuccess=createAction('deleteCommentSuccess');
 const deleteCommentFailure=createAction('deleteCommentFailure');
 
 
+
+const postRequest=createAction('postRequest');
+const postSuccess=createAction('postSuccess');
+const postFailure=createAction('postFailure');
+
+
+
 export const likeReducer=createReducer(initialState,(builder)=>{
     builder.addCase(likeRequest,(state,action)=>{
       state.loading=true;
@@ -51,6 +58,22 @@ export const likeReducer=createReducer(initialState,(builder)=>{
     }).addCase(deleteCommentFailure,(state,action)=>{
         state.loading=false;
          state.error=action.payload;
+    })
+})
+
+
+
+export const postReducer=createReducer(initialState,(builder)=>{
+    builder.addCase(postRequest,(state,action)=>{
+      state.loading=true;
+    }).addCase(postSuccess,(state,action)=>{
+        state.loading=false;
+        state.posts=action.payload;
+    }).addCase(postFailure,(state,action)=>{
+        state.loading=false;
+        state.error=action.payload;
+    }).addCase(clearErrors,(state)=>{
+         state.error=null;
     })
 })
 

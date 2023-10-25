@@ -7,7 +7,7 @@ export const loginUser = (loginInfo) => async (dispatch) => {
         dispatch({
             type: "loginRequest"
         })
-        const  data  = await axiosinstance.post('/login',loginInfo);
+        const  {data } = await axiosinstance.post('/login',loginInfo);
       
         dispatch({
             type: "loginSuccess",
@@ -109,5 +109,31 @@ export const getAllUsers = () => async (dispatch) => {
             payload: err,
         })
         console.log("allUsers", err)
+    }
+}
+
+
+
+export const logoutUser = () => async (dispatch) => {
+    try {
+        dispatch({
+            type: 'logoutUserRequest',
+
+        })
+
+    
+        const {data}=await axiosinstance.get('/logout');
+       
+        dispatch({
+            type: "logoutUserSuccess",
+            payload: data.message
+        })
+        
+    } catch (err) {
+        dispatch({
+            type: "logoutUserFailure",
+            payload: err,
+        })
+        console.log("logoutUser", err)
     }
 }
