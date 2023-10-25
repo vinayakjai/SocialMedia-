@@ -170,7 +170,7 @@ exports.updateCaption = async (req, res, next) => {
 
 exports.commentOnPost = async (req, res) => {
     try {
-
+      
         const post = await Post.findById(req.params.id);
         if (!post) {
             return res.status(401).json({
@@ -217,8 +217,8 @@ exports.commentOnPost = async (req, res) => {
 
 exports.deleteComment = async (req, res) => {
     try {
-        const { commentId } = req.body;
-
+        const {commentId} = req.body;
+        
         if (!commentId) {
             return res.status(401).json({
                 success: false,
@@ -233,7 +233,7 @@ exports.deleteComment = async (req, res) => {
                 message: "post not found"
             })
         }
-
+        
         if (post.owner.toString() === req.user._id.toString()) {
 
             post.comments.forEach((comment, index) => {

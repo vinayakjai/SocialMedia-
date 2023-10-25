@@ -8,20 +8,96 @@ export const likePost = (idofpost) => async (dispatch) => {
 
         })
 
-    
-        const {data}=await axiosinstance.get(`/post/${idofpost}`);
-       
-       
+
+        const { data } = await axiosinstance.get(`/post/${idofpost}`);
+
+
         dispatch({
             type: "likeSuccess",
             payload: data.message
         })
-        
+
     } catch (err) {
         dispatch({
             type: "likeFailure",
             payload: err,
         })
         console.log("likeUser", err)
+    }
+}
+
+
+
+export const addCommentOnPost = (idofpost, comment) => async (dispatch) => {
+    try {
+        dispatch({
+            type: 'addCommentRequest',
+
+        })
+
+       
+        const { data } = await axiosinstance.put(`/post/comment/${idofpost}`, {
+            comment
+        },
+            {
+                headers: {
+                    "content-type": "application/json"
+                }
+            }
+
+        );
+        
+        
+
+        dispatch({
+            type: "addCommentSuccess",
+            payload: data.message
+        })
+
+    } catch (err) {
+        dispatch({
+            type: "addCommentFailure",
+            payload: err,
+        })
+        console.log("addComment", err)
+    }
+}
+
+
+
+
+export const deleteCommentOnPost = (idofpost, commentId) => async (dispatch) => {
+   
+    try {
+        dispatch({
+            type: 'deleteCommentRequest',
+
+        })
+
+        const commentIdInfo={
+            data:{commentId}
+        }
+      
+        const { data } = await axiosinstance.delete(`/post/comment/${idofpost}`,commentIdInfo,
+            {
+                headers: {
+                    "content-type": "application/json"
+                }
+            }
+
+        );
+          
+
+        dispatch({
+            type: "deleteCommentSuccess",
+            payload: data.message
+        })
+
+    } catch (err) {
+        dispatch({
+            type: "deleteCommentFailure",
+            payload: err,
+        })
+        console.log("deleteComment", err)
     }
 }

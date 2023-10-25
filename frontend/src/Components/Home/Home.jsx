@@ -17,6 +17,7 @@ function Home() {
 
     return state.like
   })
+  console.log(message);
   const alert = useAlert();
   useEffect(() => {
     dispatch(getpostoffollowing());

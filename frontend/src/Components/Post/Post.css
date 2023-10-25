@@ -53,17 +53,24 @@
     height:100vh;
     padding:2vmax;
 }
+.addCommentContainer{
+  
+    display: flex;
+
+}
 .commentForm{
     display: flex;
+    flex-direction: column;
     margin:1vmax;
 }
-.commentForm>input{
+.commentInput{
     width:100%;
     padding:1vmax 2vmax;
     outline:none;
     border: 1px solid rgba(0,0,0, 0.567);
     border-radius: 30px 0 0 30px;
     font:100 1vmax sans-serif;
+    
 }
 @media screen and (max-width:600px){
     .post{
