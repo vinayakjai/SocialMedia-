@@ -60,6 +60,8 @@ function Account() {
                                     ownerId={post.owner._id}
                                     ownerImage={post.owner.avtar.url}
                                     ownerName={post.owner.name}
+                                    isAccount={true}
+                                    isDelete={true}
 
 
                                 />)

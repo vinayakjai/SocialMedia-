@@ -131,3 +131,35 @@ export const getMyPost = () => async (dispatch) => {
         console.log("posts", err)
     }
 }
+
+
+
+
+export const createPost = (caption,image) => async (dispatch) => {
+    try {
+        dispatch({
+            type: 'newpostRequest',
+
+        })
+
+       
+        const { data } = await axiosinstance.post(`/post/upload`,{
+          caption,
+          image
+        });
+        
+        
+
+        dispatch({
+            type: "newpostSuccess",
+            payload: data.message
+        })
+
+    } catch (err) {
+        dispatch({
+            type: "newpostFailure",
+            payload: err.response.data.message,
+        })
+        console.log("newpost", err)
+    }
+}

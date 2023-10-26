@@ -20,6 +20,7 @@ function Home() {
   console.log(message);
   const alert = useAlert();
   useEffect(() => {
+    
     dispatch(getpostoffollowing());
     dispatch(getAllUsers());
   }, [dispatch])

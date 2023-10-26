@@ -1,7 +1,7 @@
 backend--
 
 npm init
-npm i express dotenv mongoose bcrypt jsonwebtoken cookie-parser cors
+npm i express dotenv mongoose bcrypt jsonwebtoken cookie-parser cors cloudinary
 
 frontend--
 npm i react-router-dom @mui/material @mui/icons-material 

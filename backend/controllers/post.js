@@ -2,15 +2,19 @@
 const Post = require("../models/Post.js")
 
 const User = require('../models/User.js');
-
+const cloudinary=require("cloudinary");
 exports.createPost = async (req, res, next) => {
     try {
-
+        console.log(req.body);
+        console.log(process.env.CLOUDINARY_NAME,process.env.CLOUDINARYAPI_KEY);
+        const myCloud=await cloudinary.v2.uploader.upload(req.body.image,{
+            folder:"posts"
+        });
         const newPostData = {
             caption: req.body.caption,
             image: {
-                public_id: "jaa",
-                url: "ncak",
+                public_id: myCloud.public_id,
+                url: myCloud.secure_url,
             },
             owner: req.user._id,
 
@@ -20,19 +24,19 @@ exports.createPost = async (req, res, next) => {
         const newPost = await Post.create(newPostData);
 
         const user = await User.findById(req.user._id);
-        user.posts.push(newPost._id);
+        user.posts.unshift(newPost._id);
         await user.save();
         res.status(201).json({
             success: true,
-            message: "post create succesfuly",
-            newPost
+            message: "Post created succesfuly",
+       
         });
 
 
     } catch (err) {
         res.status(400).json({
             success: false,
-            message: `->${err.message}`
+            message: `->${err}`
         })
     }
 }

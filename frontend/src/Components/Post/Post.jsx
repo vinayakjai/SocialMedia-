@@ -5,10 +5,11 @@ import { Avatar, Button, Typography, Dialog } from "@mui/material";
 import { Link } from "react-router-dom";
 import { ChatBubbleOutline, DeleteOutline, Favorite, FavoriteBorder, MoreVert } from "@mui/icons-material"
 import { useDispatch, useSelector } from "react-redux";
-import { addCommentOnPost, likePost } from "../../actions/Post";
+import { addCommentOnPost, getMyPost, likePost } from "../../actions/Post";
 import { getpostoffollowing } from "../../actions/User";
 import User from "../Users/User";
 import CommentCard from "../commentCard/CommentCard";
+
 function Post({
     postId,
     caption,
@@ -37,7 +38,7 @@ function Post({
         setLiked(!liked);
         await dispatch(likePost(postId));
         if (isAccount) {
-           console.log("bring my post")
+            dispatch(getMyPost());
         } else {
             dispatch(getpostoffollowing());
         }
@@ -50,7 +51,7 @@ function Post({
         e.preventDefault();
         await dispatch(addCommentOnPost(postId, commentValue));
         if (isAccount) {
-            console.log("bring my post")
+           dispatch(getMyPost());
          } else {
              dispatch(getpostoffollowing());
          }

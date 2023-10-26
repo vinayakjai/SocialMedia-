@@ -29,6 +29,14 @@ const postFailure=createAction('postFailure');
 
 
 
+
+const newpostRequest=createAction('newpostRequest');
+const newpostSuccess=createAction('newpostSuccess');
+const newpostFailure=createAction('newpostFailure');
+
+
+
+
 export const likeReducer=createReducer(initialState,(builder)=>{
     builder.addCase(likeRequest,(state,action)=>{
       state.loading=true;
@@ -75,6 +83,24 @@ export const postReducer=createReducer(initialState,(builder)=>{
     }).addCase(clearErrors,(state)=>{
          state.error=null;
     })
+})
+
+
+
+export const newpostReducer=createReducer(initialState,(builder)=>{
+    builder.addCase(newpostRequest,(state,action)=>{
+      state.loading=true;
+    }).addCase(newpostSuccess,(state,action)=>{
+        state.loading=false;
+        state.message=action.payload;
+    }).addCase(newpostFailure,(state,action)=>{
+        state.loading=false;
+        state.error=action.payload;
+    }).addCase(clearMessage,(state)=>{
+         state.message=null;
+    }).addCase(clearErrors,(state)=>{
+        state.error=null;
+   })
 })
 
 
