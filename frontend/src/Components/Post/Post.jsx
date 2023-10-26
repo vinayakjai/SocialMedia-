@@ -5,8 +5,8 @@ import { Avatar, Button, Typography, Dialog } from "@mui/material";
 import { Link } from "react-router-dom";
 import { ChatBubbleOutline, DeleteOutline, Favorite, FavoriteBorder, MoreVert } from "@mui/icons-material"
 import { useDispatch, useSelector } from "react-redux";
-import { addCommentOnPost, getMyPost, likePost, updateCaption } from "../../actions/Post";
-import { getpostoffollowing } from "../../actions/User";
+import { addCommentOnPost, deletePost, getMyPost, likePost, updateCaption } from "../../actions/Post";
+import { getpostoffollowing, loadUser } from "../../actions/User";
 import User from "../Users/User";
 import CommentCard from "../commentCard/CommentCard";
 
@@ -71,11 +71,18 @@ function Post({
     }
 
 
-    const updateCaptionHandler = async () => {
-
+    const updateCaptionHandler = async (e) => {
+        e.preventDefault();
         await dispatch(updateCaption(postId, updateCaptionValue))
         dispatch(getMyPost());
 
+    }
+
+
+    const deletePostHandler=async()=>{
+       await dispatch(deletePost(postId));
+        dispatch(getMyPost());
+        dispatch(loadUser());
     }
 
     useEffect(() => {
@@ -135,7 +142,9 @@ function Post({
                         <ChatBubbleOutline />
                     </Button>
                     {
-                        isDelete ? <Button><DeleteOutline /></Button> : null
+                        isDelete ? <Button onClick={deletePostHandler}>
+                                      <DeleteOutline />
+                                    </Button> : null
                     }
                 </div>
                 <Dialog open={likesUser} onClose={() => setLikesUser(!likesUser)}>

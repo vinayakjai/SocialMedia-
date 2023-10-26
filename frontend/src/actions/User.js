@@ -22,6 +22,10 @@ export const loginUser = (loginInfo) => async (dispatch) => {
 }
 
 
+
+
+
+
 export const loadUser = () => async (dispatch) => {
     try {
 
@@ -51,7 +55,7 @@ export const registerUser = (registerInfo) => async (dispatch) => {
             type: "registerRequest"
         })
         
-        console.log("-->registred data", data)
+        const {data}=await axiosinstance.post(`/register`,registerInfo)
         dispatch({
             type: "registerSuccess",
             payload: data.user

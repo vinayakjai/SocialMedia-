@@ -37,7 +37,7 @@ function App() {
       }
         <Routes>
           <Route path='/' element={isAuthenticated?<Home />:<Login />} />
-          <Route path='/register' element={<Register />} />
+          <Route path='/register' element={isAuthenticated?<Account />:<Register />} />
           <Route path='/account' element={isAuthenticated?<Account />:<Login />} />
           <Route path='/newpost' element={isAuthenticated?<NewPost />:<Login />} />
         </Routes>

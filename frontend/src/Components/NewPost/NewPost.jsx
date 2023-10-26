@@ -4,6 +4,7 @@ import "./NewPost.css"
 import { Button, Typography } from "@mui/material";
 import { createPost } from "../../actions/Post";
 import { useAlert } from "react-alert";
+import { loadUser } from "../../actions/User";
 
 function NewPost() {
     const dispatch=useDispatch();
@@ -23,9 +24,10 @@ function NewPost() {
       
     }
     
-    const submitHandler=(e)=>{
+    const submitHandler=async(e)=>{
         e.preventDefault();
-        dispatch(createPost(caption,image));
+       await dispatch(createPost(caption,image));
+       dispatch(loadUser());
     }
     useEffect(()=>{
       if(error){

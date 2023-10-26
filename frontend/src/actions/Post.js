@@ -195,3 +195,33 @@ export const updateCaption = (idofpost,caption) => async (dispatch) => {
         console.log("updateCaption", err)
     }
 }
+
+
+
+
+
+export const deletePost = (idofpost) => async (dispatch) => {
+    try {
+        dispatch({
+            type: 'deletePostRequest',
+
+        })
+
+       
+        const { data } = await axiosinstance.delete(`/post/${idofpost}`);
+        
+        
+
+        dispatch({
+            type: "deletePostSuccess",
+            payload: data.message
+        })
+
+    } catch (err) {
+        dispatch({
+            type: "deletePostFailure",
+            payload: err.response.data.message,
+        })
+        console.log("deletePost", err)
+    }
+}

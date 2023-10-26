@@ -1,8 +1,11 @@
 const User = require("../models/User");
 const Post = require("../models/Post");
+const cloudinary=require("cloudinary");
+
 exports.register = async (req, res) => {
     try {
-        const { name, email, password } = req.body;
+        const { name, email, password ,avtar} = req.body;
+       
         if (!name || !email || !password) {
             return res.status(400).json({
                 success: false,
@@ -11,16 +14,19 @@ exports.register = async (req, res) => {
         }
         let user = await User.findOne({ email });
         if (user) {
-            res.status(400).json({
+           return res.status(400).json({
                 success: false,
                 message: "User already exists"
             })
         }
+        const myCloud=await cloudinary.v2.uploader.upload(avtar,{
+            folder:"avtars"
+        })
         user = await User.create({
             name, email, password
             , avtar: {
-                public_id: "sample_id",
-                url: "sample url"
+                public_id: myCloud.public_id,
+                url: myCloud.secure_url
             }
         })
 
@@ -35,9 +41,9 @@ exports.register = async (req, res) => {
 
         return res.status(201).json({
             success: true,
-            message: "User loggedin successfully",
+            message: "User registered successfully",
             user,
-            token,
+           
         })
     } catch (err) {
         res.status(500).json({
@@ -60,8 +66,8 @@ exports.login = async (req, res, next) => {
 
             return;
         }
-        const user = await User.findOne({ email }).select("+password").populate("posts followers followings owner");
-       
+        const user = await User.findOne({ email }).select("+password").populate("posts followers followings")
+
         if (!user) {
             res.status(400).json({
                 success: false,
