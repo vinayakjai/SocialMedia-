@@ -163,3 +163,35 @@ export const createPost = (caption,image) => async (dispatch) => {
         console.log("newpost", err)
     }
 }
+
+
+
+
+
+export const updateCaption = (idofpost,caption) => async (dispatch) => {
+    try {
+        dispatch({
+            type: 'updateCaptionRequest',
+
+        })
+
+       
+        const { data } = await axiosinstance.put(`/post/${idofpost}`,{
+         caption
+        });
+        
+        
+
+        dispatch({
+            type: "updateCaptionSuccess",
+            payload: data.message
+        })
+
+    } catch (err) {
+        dispatch({
+            type: "updateCaptionFailure",
+            payload: err.response.data.message,
+        })
+        console.log("updateCaption", err)
+    }
+}

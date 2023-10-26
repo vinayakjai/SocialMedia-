@@ -35,6 +35,11 @@ const newpostSuccess=createAction('newpostSuccess');
 const newpostFailure=createAction('newpostFailure');
 
 
+const updateCaptionRequest=createAction('updateCaptionRequest');
+const updateCaptionSuccess=createAction('updateCaptionSuccess');
+const updateCaptionFailure=createAction('updateCaptionFailure');
+
+
 
 
 export const likeReducer=createReducer(initialState,(builder)=>{
@@ -94,6 +99,24 @@ export const newpostReducer=createReducer(initialState,(builder)=>{
         state.loading=false;
         state.message=action.payload;
     }).addCase(newpostFailure,(state,action)=>{
+        state.loading=false;
+        state.error=action.payload;
+    }).addCase(clearMessage,(state)=>{
+         state.message=null;
+    }).addCase(clearErrors,(state)=>{
+        state.error=null;
+   })
+})
+
+
+
+export const updateCaptionReducer=createReducer(initialState,(builder)=>{
+    builder.addCase(updateCaptionRequest,(state,action)=>{
+      state.loading=true;
+    }).addCase(updateCaptionSuccess,(state,action)=>{
+        state.loading=false;
+        state.message=action.payload;
+    }).addCase(updateCaptionFailure,(state,action)=>{
         state.loading=false;
         state.error=action.payload;
     }).addCase(clearMessage,(state)=>{

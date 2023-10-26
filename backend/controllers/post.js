@@ -6,7 +6,7 @@ const cloudinary=require("cloudinary");
 exports.createPost = async (req, res, next) => {
     try {
         console.log(req.body);
-        console.log(process.env.CLOUDINARY_NAME,process.env.CLOUDINARYAPI_KEY);
+       
         const myCloud=await cloudinary.v2.uploader.upload(req.body.image,{
             folder:"posts"
         });
@@ -138,6 +138,7 @@ exports.getPostofFollowing = async (req, res, next) => {
 exports.updateCaption = async (req, res, next) => {
     try {
         const post = await Post.findById(req.params.id);
+      
         if (!req.body.caption) {
             return res.status(400).json({
                 success: false,
@@ -145,26 +146,26 @@ exports.updateCaption = async (req, res, next) => {
             })
         }
         if (!post) {
-            res.status(401).json({
+           return res.status(401).json({
                 success: false,
                 message: "post not found"
             })
         }
         if (post.owner._id.toString() !== req.user._id.toString()) {
-            res.status(402).json({
+           return res.status(402).json({
                 success: false,
                 message: "unauthorizes User",
             })
         }
         post.caption = req.body.caption;
         await post.save();
-        res.status(200).json({
+       return res.status(200).json({
             success: true,
             message: "post updated"
         })
 
     } catch (err) {
-        res.status(403).json({
+       return res.status(403).json({
             success: false,
             message: err.message
         })

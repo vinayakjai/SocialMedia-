@@ -5,7 +5,7 @@ import { Avatar, Button, Typography, Dialog } from "@mui/material";
 import { Link } from "react-router-dom";
 import { ChatBubbleOutline, DeleteOutline, Favorite, FavoriteBorder, MoreVert } from "@mui/icons-material"
 import { useDispatch, useSelector } from "react-redux";
-import { addCommentOnPost, getMyPost, likePost } from "../../actions/Post";
+import { addCommentOnPost, getMyPost, likePost, updateCaption } from "../../actions/Post";
 import { getpostoffollowing } from "../../actions/User";
 import User from "../Users/User";
 import CommentCard from "../commentCard/CommentCard";
@@ -19,21 +19,33 @@ function Post({
     ownerImage,
     ownerName,
     ownerId,
-    isDelete=false,
-    isAccount=false
+    isDelete = false,
+    isAccount = false
 }) {
 
 
-
+    const alert = useAlert();
     const dispatch = useDispatch();
 
     const [commentValue, setCommentValue] = useState("");
     const [commentToggle, setCommentToggle] = useState(false);
+
+
+
+    const [updateCaptionValue, setUpdatedCaptionValue] = useState(caption);
+    const [updatedCaptionToggle, setUpdatedCaptionToggle] = useState(false);
+
+
+
+
     const [likesUser, setLikesUser] = useState(false);
     const [liked, setLiked] = useState(false);
+
+
+
     const { user } = useSelector((state) => state.user);
 
-    const alert = useAlert();
+
     const handleLike = async () => {
         setLiked(!liked);
         await dispatch(likePost(postId));
@@ -51,10 +63,18 @@ function Post({
         e.preventDefault();
         await dispatch(addCommentOnPost(postId, commentValue));
         if (isAccount) {
-           dispatch(getMyPost());
-         } else {
-             dispatch(getpostoffollowing());
-         }
+            dispatch(getMyPost());
+        } else {
+            dispatch(getpostoffollowing());
+        }
+
+    }
+
+
+    const updateCaptionHandler = async () => {
+
+        await dispatch(updateCaption(postId, updateCaptionValue))
+        dispatch(getMyPost());
 
     }
 
@@ -73,7 +93,10 @@ function Post({
             <div className="post">
                 <div className="postHeader">
                     {
-                        isAccount ? <Button><MoreVert /></Button> : null
+                        isAccount ? <Button onClick={() => setUpdatedCaptionToggle(!updatedCaptionToggle)}>
+                            <MoreVert />
+                        </Button>
+                            : null
                     }
                 </div>
                 <img src={postImage} alt="post" />
@@ -160,7 +183,7 @@ function Post({
 
                                 {
                                     comments.length > 0 ? comments.map(comment => {
-                                      
+
                                         return <CommentCard
                                             key={comment._id}
                                             userId={comment.user._id}
@@ -176,6 +199,32 @@ function Post({
                                 }
 
                             </div>
+                        </form>
+                    </div>
+                </Dialog>
+
+
+
+
+
+                <Dialog open={updatedCaptionToggle} onClose={() => setUpdatedCaptionToggle(!updatedCaptionToggle)}>
+                    <div className="dialogBox">
+                        <Typography variant="h6">
+                            Update Caption
+
+                        </Typography>
+                        <form className="commentForm" onSubmit={updateCaptionHandler}>
+                            <div className="addCommentContainer">
+                                <input className="commentInput"
+                                    type="text"
+                                    value={updateCaptionValue}
+                                    onChange={(e) => setUpdatedCaptionValue(e.target.value)}
+                                    placeholder="update your caption"
+                                    required
+                                />
+                                <Button type="submit" variant="contained">update</Button>
+                            </div>
+
                         </form>
                     </div>
                 </Dialog>
