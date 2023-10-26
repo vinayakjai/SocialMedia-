@@ -141,3 +141,57 @@ export const logoutUser = () => async (dispatch) => {
         console.log("logoutUser", err)
     }
 }
+
+
+
+
+
+
+
+
+
+export const updateProfileofUser = (updateProfileInfo) => async (dispatch) => {
+    try {
+
+        dispatch({
+            type: "updateProfileRequest"
+        })
+        
+        const {data}=await axiosinstance.put(`/update/profile`,updateProfileInfo)
+        dispatch({
+            type: "updateProfileSuccess",
+            payload: data.message
+        })
+    } catch (err) {
+        dispatch({
+            type: 'updateProfileFailure',
+            payload: err.message
+        })
+       
+    }
+}
+
+
+
+
+export const updatePassword = (updatePasswordInfo) => async (dispatch) => {
+    try {
+
+        dispatch({
+            type: "updatePasswordRequest"
+        })
+        
+        const {data}=await axiosinstance.put(`/update/password`,updatePasswordInfo)
+        dispatch({
+            type: "updatePasswordSuccess",
+            payload: data.message
+        })
+    } catch (err) {
+        dispatch({
+            type: 'updatePasswordFailure',
+            payload: err.message
+        })
+        console.log(err);
+    }
+}
+

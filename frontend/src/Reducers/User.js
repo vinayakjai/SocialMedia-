@@ -27,17 +27,33 @@ const clearErrors = createAction('clearErrors');
 
 
 
-const allUsersRequest=createAction('allUsersRequest');
-const allUsersSuccess=createAction('allUsersSuccess');
-const allUsersFailure=createAction('allUsersFailure');
+const allUsersRequest = createAction('allUsersRequest');
+const allUsersSuccess = createAction('allUsersSuccess');
+const allUsersFailure = createAction('allUsersFailure');
 
 
 
 
 
-const logoutUserRequest=createAction('logoutUserRequest');
-const logoutUserSuccess=createAction('logoutUserSuccess');
-const logoutUserFailure=createAction('logoutUserFailure');
+const logoutUserRequest = createAction('logoutUserRequest');
+const logoutUserSuccess = createAction('logoutUserSuccess');
+const logoutUserFailure = createAction('logoutUserFailure');
+
+
+
+
+const updateProfileRequest = createAction('updateProfileRequest');
+const updateProfileSuccess = createAction('updateProfileSuccess');
+const updateProfileFailure = createAction('updateProfileFailure');
+const clearMessage = createAction('clearMessage');
+
+
+
+
+
+const updatePasswordRequest = createAction('updatePasswordRequest');
+const updatePasswordSuccess = createAction('updatePasswordSuccess');
+const updatePasswordFailure = createAction('updatePasswordFailure');
 
 export const userReducer = createReducer(initialState, (builder) => {
    builder.addCase(loginRequest, (state) => {
@@ -65,26 +81,26 @@ export const userReducer = createReducer(initialState, (builder) => {
       state.loading = true;
    }).addCase(loadUserSuccess, (state, action) => {
       state.loading = false;
-      state.user=action.payload;
+      state.user = action.payload;
       state.isAuthenticated = true
-   }).addCase(loadUserFailure,(state)=>{
-      state.loading=false;
-    
-   })
-   .addCase(logoutUserRequest, (state, action) => {
-      state.loading = true;
-     
-   }).addCase(logoutUserSuccess, (state, action) => {
+   }).addCase(loadUserFailure, (state) => {
       state.loading = false;
-      state.user=null;
-      state.isAuthenticated = false;
-   }).addCase(logoutUserFailure, (state, action) => {
-      state.loading = false;
-      state.error = action.payload;
-      state.isAuthenticated = true;
-   }).addCase(clearErrors, (state) => {
-      state.error=null;
+
    })
+      .addCase(logoutUserRequest, (state, action) => {
+         state.loading = true;
+
+      }).addCase(logoutUserSuccess, (state, action) => {
+         state.loading = false;
+         state.user = null;
+         state.isAuthenticated = false;
+      }).addCase(logoutUserFailure, (state, action) => {
+         state.loading = false;
+         state.error = action.payload;
+         state.isAuthenticated = true;
+      }).addCase(clearErrors, (state) => {
+         state.error = null;
+      })
 
 })
 
@@ -98,21 +114,61 @@ export const postoffollowingReducers = createReducer({}, (builder) => {
       state.loading = false;
       state.error = action.payload;
    }).addCase(clearErrors, (state) => {
-      state.error=null;
+      state.error = null;
    })
 })
 
-export const getAllUsersReducers=createReducer(initialState,(builder)=>{
-   builder.addCase(allUsersRequest,(state,action)=>{
-        state.loading=true;
-   }).addCase(allUsersSuccess,(state,action)=>{
-         state.loading=false;
-         state.users=action.payload;
+export const getAllUsersReducers = createReducer(initialState, (builder) => {
+   builder.addCase(allUsersRequest, (state, action) => {
+      state.loading = true;
+   }).addCase(allUsersSuccess, (state, action) => {
+      state.loading = false;
+      state.users = action.payload;
 
-   }).addCase(allUsersFailure,(state,action)=>{
-       state.loading=false;
-       state.error=action.payload;
+   }).addCase(allUsersFailure, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
    }).addCase(clearErrors, (state) => {
-      state.error=null;
+      state.error = null;
+   })
+})
+
+
+
+
+export const updateProfileReducer = createReducer(initialState, (builder) => {
+   builder.addCase(updateProfileRequest, (state, action) => {
+      state.loading = true;
+   }).addCase(updateProfileSuccess, (state, action) => {
+      state.loading = false;
+      state.message = action.payload;
+
+   }).addCase(updateProfileFailure, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+   }).addCase(clearErrors, (state) => {
+      state.error = null;
+   }).addCase(clearMessage, (state) => {
+      state.message = null;
+   })
+})
+
+
+
+
+export const updatePasswordReducer = createReducer(initialState, (builder) => {
+   builder.addCase(updatePasswordRequest, (state, action) => {
+      state.loading = true;
+   }).addCase(updatePasswordSuccess, (state, action) => {
+      state.loading = false;
+      state.message = action.payload;
+
+   }).addCase(updatePasswordFailure, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+   }).addCase(clearErrors, (state) => {
+      state.error = null;
+   }).addCase(clearMessage, (state) => {
+      state.message = null;
    })
 })

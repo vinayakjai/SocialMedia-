@@ -228,8 +228,10 @@ exports.updateProfile = async (req, res, next) => {
     try {
 
         const user = await User.findById(req.user._id);
-        const { name, email } = req.body;
-        if (!name || !email) {
+        console.log(req.body.name);
+        
+        const { name, email,avtar } = req.body;
+        if (!name || !email || ! avtar) {
             return res.status(401).json({
                 success: false,
                 message: "all fields are required"
@@ -242,7 +244,19 @@ exports.updateProfile = async (req, res, next) => {
         if (email) {
             user.email = email;
         }
-
+       
+        if(avtar){
+             
+             await cloudinary.v2.uploader.destroy(user.avtar.public_id);
+             const myCloud=await cloudinary.v2.uploader.upload(avtar,{
+                folder:"avtars",
+             })
+           
+             user.avtar.public_id=myCloud.public_id;
+             user.avtar.url=myCloud.url;
+           
+        }
+        console.log("reached");
         await user.save();
         res.status(201).json({
             success: true,
@@ -251,8 +265,9 @@ exports.updateProfile = async (req, res, next) => {
     } catch (err) {
         res.status(401).json({
             success: false,
-            message: err.message
+            message: "can't update profile"
         })
+        console.log(err);
     }
 }
 

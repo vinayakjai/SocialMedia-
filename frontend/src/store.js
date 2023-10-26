@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit"
-import {getAllUsersReducers, postoffollowingReducers, userReducer } from "./Reducers/User";
+import {getAllUsersReducers, postoffollowingReducers, updatePasswordReducer, updateProfileReducer,  userReducer } from "./Reducers/User";
 import { getDefaultMiddleware } from "@reduxjs/toolkit";
 import { deletePostReducer, likeReducer, newpostReducer, postReducer } from "./Reducers/Post";
 
@@ -16,7 +16,9 @@ const store = configureStore(
         like:likeReducer,
         myPosts:postReducer,
         newPost:newpostReducer,
-        deletePost:deletePostReducer
+        deletePost:deletePostReducer,
+        updateProfile:updateProfileReducer,
+        updatePassword:updatePasswordReducer
      },
      middleware: (getDefaultMiddleware) => getDefaultMiddleware( {serializableCheck: false,}),
     }
