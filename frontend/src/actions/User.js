@@ -92,7 +92,7 @@ export const getpostoffollowing = () => async (dispatch) => {
     }
 }
 
-export const getAllUsers = () => async (dispatch) => {
+export const getAllUsers = (name="") => async (dispatch) => {
     try {
         dispatch({
             type: 'allUsersRequest',
@@ -100,7 +100,7 @@ export const getAllUsers = () => async (dispatch) => {
         })
 
     
-        const {data}=await axiosinstance.get('/users');
+        const {data}=await axiosinstance.get(`/users?name=${name}`);
        
         dispatch({
             type: "allUsersSuccess",

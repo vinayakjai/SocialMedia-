@@ -428,7 +428,7 @@ exports.getUserProfile = async (req, res, next) => {
 exports.getAllUsers = async (req, res) => {
     try {
        
-        const users = await User.find({});
+        const users = await User.find({name:{$regex:req.query.name,$options:"i"}});
 
         res.status(201).json({
             success: true,

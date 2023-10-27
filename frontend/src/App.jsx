@@ -17,6 +17,7 @@ import UpdatePassword from './Components/UpdatePassword/UpdatePassword';
 import ForgotPassword from './Components/ForgotPassword/ForgotPassword';
 import ResetPassword from './Components/ResetPassword/ResetPassword';
 import UserProfile from './Components/UserProfile/UserProfile';
+import Search from './Components/Search/Search';
 
 
 function App() {
@@ -51,6 +52,7 @@ function App() {
           <Route path='/forgot/password' element={isAuthenticated ? <UpdatePassword /> : <ForgotPassword />} />
           <Route path='/password/reset/:token' element={isAuthenticated ? <UpdatePassword /> : <ResetPassword />} />
           <Route path='/user/:id' element={isAuthenticated ? <UserProfile /> : <Login />} />
+          <Route path='search' element={isAuthenticated?<Search />:<Login />} />
         </Routes>
       </BrowserRouter>
 
