@@ -16,7 +16,7 @@ export const loginUser = (loginInfo) => async (dispatch) => {
     } catch (err) {
         dispatch({
             type: 'loginFailure',
-            payload: err
+            payload: err.response.data.message
         })
     }
 }
@@ -41,7 +41,7 @@ export const loadUser = () => async (dispatch) => {
     } catch (err) {
         dispatch({
             type: 'loadUserFailure',
-            payload: err,
+            payload:  err.response.data.message,
         })
         console.log("->", err)
     }
@@ -63,7 +63,7 @@ export const registerUser = (registerInfo) => async (dispatch) => {
     } catch (err) {
         dispatch({
             type: 'registerFailure',
-            payload: err
+            payload:  err.response.data.message
         })
     }
 }
@@ -86,7 +86,7 @@ export const getpostoffollowing = () => async (dispatch) => {
     } catch (err) {
         dispatch({
             type: "postoffollowingFailure",
-            payload: err,
+            payload:  err.response.data.message,
         })
         console.log("postfollow", err)
     }
@@ -110,7 +110,7 @@ export const getAllUsers = () => async (dispatch) => {
     } catch (err) {
         dispatch({
             type: "allUsersFailure",
-            payload: err,
+            payload:  err.response.data.message,
         })
         console.log("allUsers", err)
     }
@@ -136,7 +136,7 @@ export const logoutUser = () => async (dispatch) => {
     } catch (err) {
         dispatch({
             type: "logoutUserFailure",
-            payload: err,
+            payload:  err.response.data.message,
         })
         console.log("logoutUser", err)
     }
@@ -165,7 +165,7 @@ export const updateProfileofUser = (updateProfileInfo) => async (dispatch) => {
     } catch (err) {
         dispatch({
             type: 'updateProfileFailure',
-            payload: err.message
+            payload:  err.response.data.message
         })
        
     }
@@ -189,9 +189,64 @@ export const updatePassword = (updatePasswordInfo) => async (dispatch) => {
     } catch (err) {
         dispatch({
             type: 'updatePasswordFailure',
-            payload: err.message
+            payload:  err.response.data.message
         })
         console.log(err);
     }
 }
 
+
+export const deleteProfile=()=>async(dispatch)=>{
+    try{
+       dispatch({type:"deleteProfileRequest"});
+       const {data}=await axiosinstance.delete('/delete/me');
+
+       dispatch({type:"deleteProfileSuccess",payload:data.message})
+
+    }catch(err){
+        dispatch({
+            type:"deleteProfileFailure",
+            payload:err.response.data.message
+        })
+    }
+}
+
+
+
+
+export const forgotPassword=(email)=>async(dispatch)=>{
+    try{
+       dispatch({type:"forgotPasswordRequest"});
+       const {data}=await axiosinstance.post('/forgot/password',{
+        email
+       });
+
+       dispatch({type:"forgotPasswordSuccess",payload:data.message})
+
+    }catch(err){
+        dispatch({
+            type:"forgotPasswordFailure",
+            payload:err.response.data.message
+        })
+    }
+}
+
+
+
+
+export const resetPassword=(newPassword,token)=>async(dispatch)=>{
+    try{
+       dispatch({type:"resetPasswordRequest"});
+       const {data}=await axiosinstance.post(`/forgot/password/reset/${token}`,{
+          newPassword
+       });
+
+       dispatch({type:"resetPasswordSuccess",payload:data.message})
+
+    }catch(err){
+        dispatch({
+            type:"resetPasswordFailure",
+            payload:err.response.data.message
+        })
+    }
+}

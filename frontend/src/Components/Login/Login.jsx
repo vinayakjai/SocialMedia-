@@ -1,11 +1,15 @@
-import React,{useState} from "react";
+import React,{useEffect, useState} from "react";
+import {useAlert} from "react-alert";
 import "./Login.css"
 import { Button, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import { loginUser } from "../../actions/User";
 function Login() {
     const dispatch=useDispatch();
+    const alert=useAlert();
+    const {error}=useSelector((state)=>state.user);
+    const {message}=useSelector((state)=>state.deleteProfile);
     const [inputData,setInputData]=useState({
      
     })
@@ -26,6 +30,16 @@ function Login() {
             
     }
     
+    useEffect(()=>{
+      if(error){
+        alert.error(error);
+        dispatch({type:"clearErrors"});
+      }
+      if(message){
+        alert.success(message);
+        dispatch({type:"clearMessage"});
+      }
+    },[dispatch,alert,error,message])
     return (
         <>
             <div className="login">

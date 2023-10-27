@@ -1,4 +1,4 @@
-import React, {useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getMyPost } from "../../actions/Post";
 import Loader from "../Loader/Loader";
@@ -8,11 +8,12 @@ import { Avatar, Button, Dialog, Typography } from "@mui/material";
 import "./Account.css"
 import { Link } from "react-router-dom";
 import User from "../Users/User";
-import { logoutUser } from "../../actions/User";
+import { deleteProfile, logoutUser } from "../../actions/User";
 function Account() {
     const alert = useAlert();
     const { loading, error, posts } = useSelector((state) => state.myPosts)
     const { user, loading: userloading } = useSelector((state) => state.user);
+    const {error:deleteProfileError,loading:deleteProfileLoading,message:deleteProfileMessage}=useSelector((state)=>state.deleteProfile);
     const { error: likeError, message } = useSelector((state) => {
 
         return state.like
@@ -20,6 +21,10 @@ function Account() {
     const dispatch = useDispatch();
     const [followersToggle, setFollowersToggle] = useState(false);
     const [followingsToggle, setFollowingsToggle] = useState(false);
+    const deleteProfileHandler = async () => {
+       await dispatch(deleteProfile());
+       dispatch(logoutUser());
+    }
     useEffect(() => {
         dispatch(getMyPost());
     }, [dispatch])
@@ -29,17 +34,24 @@ function Account() {
             alert.error(likeError);
             dispatch({ type: 'clearErrors' });
         }
-
+        if(deleteProfileError){
+            alert.error(deleteProfileError);
+            dispatch({type:"clearErrors"});
+        }
+        if(deleteProfileMessage){
+            alert.success(deleteProfileMessage);
+            dispatch({type:"clearMessage"});
+        }
         if (message) {
             alert.success(message)
             dispatch({ type: 'clearMessage' })
         }
     }, [alert, error, message, likeError, dispatch])
-   
 
-    const logoutHandler=async ()=>{
-       await dispatch(logoutUser());
-       alert.success("Logged out successfully")
+
+    const logoutHandler = async () => {
+        await dispatch(logoutUser());
+        alert.success("Logged out successfully")
     }
     return (
         <>{
@@ -85,7 +97,7 @@ function Account() {
                         </div>
 
                         <div>
-                            <button onClick={()=> setFollowingsToggle(!followingsToggle)}>
+                            <button onClick={() => setFollowingsToggle(!followingsToggle)}>
                                 <Typography>Followings</Typography>
                             </button>
                             <Typography>{user.followings.length}</Typography>
@@ -99,7 +111,10 @@ function Account() {
                         <Button variant="contained" onClick={logoutHandler}>Logout</Button>
                         <Link to="/update/profile">Edit Profile</Link>
                         <Link to="/update/password">Change Password</Link>
-                        <Button variant="text" sx={{ color: "red", margin: "2vmax" }}>Delete Profile</Button>
+                        <Button variant="text" sx={{ color: "red", margin: "2vmax" }}
+
+                            onClick={deleteProfileHandler}
+                            disabled={deleteProfileLoading}>Delete Profile</Button>
 
 
                         <Dialog open={followersToggle} onClose={() => setFollowersToggle(!followersToggle)}>
@@ -118,7 +133,7 @@ function Account() {
 
                                                 />
                                             )
-                                        }) : <Typography style={{margin:"2vmax"}}>You have no followers</Typography>
+                                        }) : <Typography style={{ margin: "2vmax" }}>You have no followers</Typography>
                                     }
 
                                 </Typography>
@@ -142,7 +157,7 @@ function Account() {
 
                                                 />
                                             )
-                                        }) : <Typography style={{margin:"2vmax"}}>You did not follwed anyone</Typography>
+                                        }) : <Typography style={{ margin: "2vmax" }}>You did not follwed anyone</Typography>
                                     }
 
                                 </Typography>

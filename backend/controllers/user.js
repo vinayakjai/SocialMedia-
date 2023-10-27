@@ -56,7 +56,7 @@ exports.register = async (req, res) => {
 exports.login = async (req, res, next) => {
     try {
         const { email, password } = req.body;
-         console.log(email)
+       
 
         if (!email || !password) {
             res.status(401).json({
@@ -192,11 +192,14 @@ exports.logout = async (req, res, next) => {
 
 exports.updatePassword = async (req, res, next) => {
     try {
+
+        
         const user = await User.findById(req.user._id).select("+password");
 
         const { oldPassword, newPassword } = req.body;
+        console.log(oldPassword,newPassword);
         if (!oldPassword || !newPassword) {
-            res.status(401).json({
+          return  res.status(401).json({
                 success: false,
                 message: "all fields are required"
             })
@@ -211,13 +214,13 @@ exports.updatePassword = async (req, res, next) => {
 
         user.password = newPassword;
         await user.save();
-        res.status(201).json({
+       return res.status(201).json({
             success: true,
             message: "Password Updated"
         })
 
     } catch (err) {
-        res.status(401).json({
+      return  res.status(401).json({
             success: false,
             message: err.message
         })
@@ -280,6 +283,9 @@ exports.deleteMyProfile = async (req, res, next) => {
         const following = user.followings;
         const userId = user._id;
 
+        await cloudinary.v2.uploader.destroy(user.avtar.public_id);
+
+
         await user.deleteOne();
 
         //logging out user after deleting profile
@@ -293,6 +299,7 @@ exports.deleteMyProfile = async (req, res, next) => {
         for (let i = 0; i < posts.length; i++) {
 
             const post = await Post.findById(posts[i]);
+            await cloudinary.v2.uploader.destroy(post.image.public_id);
 
             await post.deleteOne();
 

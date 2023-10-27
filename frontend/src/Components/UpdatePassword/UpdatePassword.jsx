@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./UpdatePassword.css"
 import { Button, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
@@ -9,9 +9,9 @@ import { loadUser, updatePassword } from "../../actions/User";
 function UpdatePassword() {
 
     const dispatch = useDispatch();
-    const alert=useAlert();
-    
-    const {error,loading,message}=useSelector((state)=>state.UpdatePassword)
+    const alert = useAlert();
+
+    const { error, loading, message } = useSelector((state) => state.updatePassword)
     const [inputData, setInputData] = useState({
         oldPassword: "",
         newPassword: "",
@@ -28,22 +28,22 @@ function UpdatePassword() {
 
         const updatePasswordInfo = inputData;
         console.log(updatePasswordInfo)
-       // await dispatch(updatePassword(updatePasswordInfo))
-       // dispatch(loadUser());
-       
-     
+          await dispatch(updatePassword(updatePasswordInfo))
+          dispatch(loadUser());
+
+
 
     }
-    useEffect(()=>{
-        if(error){
-          alert.error(error);
-          dispatch({type:"clearError"});
+    useEffect(() => {
+        if (error) {
+            alert.error(error);
+            dispatch({ type: "clearError" });
         }
-        if(message){
+        if (message) {
             alert.success(message);
-            dispatch({type:"clearMessage"});
+            dispatch({ type: "clearMessage" });
         }
-    },[dispatch,alert,error,message])
+    }, [dispatch, alert, error, message])
     return (
         <>
             <div className="updatePassword">
