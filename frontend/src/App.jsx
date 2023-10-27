@@ -16,39 +16,41 @@ import UpdateProfile from './Components/UpdateProfile/UpdateProfile';
 import UpdatePassword from './Components/UpdatePassword/UpdatePassword';
 import ForgotPassword from './Components/ForgotPassword/ForgotPassword';
 import ResetPassword from './Components/ResetPassword/ResetPassword';
+import UserProfile from './Components/UserProfile/UserProfile';
 
 
 function App() {
   const dispatch = useDispatch();
- 
-  useEffect( ()=>{
-   
-     
-        dispatch(loadUser());
-        
-   },[
+
+  useEffect(() => {
+
+
+    dispatch(loadUser());
+
+  }, [
     dispatch
-   ])
-    
-   const {isAuthenticated}=useSelector((state)=>state.user);
-   
-  
+  ])
+
+  const { isAuthenticated } = useSelector((state) => state.user);
+
+
   return (
     <>
 
       <BrowserRouter>
-      {
-        isAuthenticated &&     (<Header />)
-      }
+        {
+          isAuthenticated && (<Header />)
+        }
         <Routes>
-          <Route path='/' element={isAuthenticated?<Home />:<Login />} />
-          <Route path='/register' element={isAuthenticated?<Account />:<Register />} />
-          <Route path='/account' element={isAuthenticated?<Account />:<Login />} />
-          <Route path='/newpost' element={isAuthenticated?<NewPost />:<Login />} />
-          <Route path='/update/profile' element={isAuthenticated?<UpdateProfile />:<Login />} />
-          <Route path='/update/password' element={isAuthenticated?<UpdatePassword />:<Login />} />
-          <Route path='/forgot/password' element={isAuthenticated?<UpdatePassword />:<ForgotPassword />} />
-          <Route path='/password/reset/:token' element={isAuthenticated?<UpdatePassword />:<ResetPassword />} />
+          <Route path='/' element={isAuthenticated ? <Home /> : <Login />} />
+          <Route path='/register' element={isAuthenticated ? <Account /> : <Register />} />
+          <Route path='/account' element={isAuthenticated ? <Account /> : <Login />} />
+          <Route path='/newpost' element={isAuthenticated ? <NewPost /> : <Login />} />
+          <Route path='/update/profile' element={isAuthenticated ? <UpdateProfile /> : <Login />} />
+          <Route path='/update/password' element={isAuthenticated ? <UpdatePassword /> : <Login />} />
+          <Route path='/forgot/password' element={isAuthenticated ? <UpdatePassword /> : <ForgotPassword />} />
+          <Route path='/password/reset/:token' element={isAuthenticated ? <UpdatePassword /> : <ResetPassword />} />
+          <Route path='/user/:id' element={isAuthenticated ? <UserProfile /> : <Login />} />
         </Routes>
       </BrowserRouter>
 

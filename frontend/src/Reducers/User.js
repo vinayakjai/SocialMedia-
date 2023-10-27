@@ -1,3 +1,4 @@
+
 import { createAction, createReducer } from "@reduxjs/toolkit"
 const initialState = {
    isAuthenticated: false,
@@ -72,7 +73,26 @@ const forgotPasswordFailure=createAction('forgotPasswordFailure');
 
 const resetPasswordRequest=createAction('resetPasswordRequest');
 const resetPasswordSuccess=createAction('resetPasswordSuccess');
-const resetPasswordFailure=createAction('resetPasswordFailure')
+const resetPasswordFailure=createAction('resetPasswordFailure');
+
+
+const userPostsRequest=createAction('userPostsRequest');
+const userPostsSuccess=createAction('userPostsSuccess');
+const userPostsFailure=createAction('userPostsFailure');
+
+
+
+
+const userProfileRequest=createAction('userProfileRequest');
+const userProfileSuccess=createAction('userProfileSuccess');
+const userProfileFailure=createAction('userProfileFailure');
+
+
+const followUserRequest=createAction('followUserRequest');
+const followUserSuccess=createAction('followUserSuccess');
+const followUserFailure=createAction('followUserFailure');
+
+
 
 export const userReducer = createReducer(initialState, (builder) => {
    builder.addCase(loginRequest, (state) => {
@@ -257,3 +277,65 @@ export const resetPasswordReducer = createReducer(initialState, (builder) => {
       state.message = null;
    })
 })
+
+
+
+export const userPostsReducer=createReducer(initialState,(builder)=>{
+   builder.addCase(userPostsRequest,(state,action)=>{
+      state.loading=true;
+   }).addCase(userPostsSuccess,(state,action)=>{
+      state.loading=false;
+      state.posts=action.payload;
+
+   }).addCase(userPostsFailure,(state,action)=>{
+      state.loading=false;
+      state.error=action.payload;
+   }).addCase(clearErrors, (state) => {
+      state.error = null;
+   }).addCase(clearMessage, (state) => {
+      state.message = null;
+   })
+})
+
+
+
+
+export const userProfileReducer = createReducer(initialState, (builder) => {
+   builder.addCase(userProfileRequest, (state, action) => {
+      state.loading = true;
+   }).addCase(userProfileSuccess, (state, action) => {
+      state.loading = false;
+      state.user = action.payload;
+
+   }).addCase(userProfileFailure, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+   }).addCase(clearErrors, (state) => {
+      state.error = null;
+   }).addCase(clearMessage,(state,action)=>{
+      
+      state.message=null;
+   })
+})
+
+
+
+export const followUserReducer = createReducer(initialState, (builder) => {
+   builder.addCase(followUserRequest, (state, action) => {
+      state.loading = true;
+   }).addCase(followUserSuccess, (state, action) => {
+      state.loading = false;
+      state.message = action.payload;
+
+   }).addCase(followUserFailure, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+   }).addCase(clearErrors, (state) => {
+      state.error = null;
+   }).addCase(clearMessage,(state,action)=>{
+     
+      state.message=null;
+   })
+})
+
+

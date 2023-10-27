@@ -250,3 +250,58 @@ export const resetPassword=(newPassword,token)=>async(dispatch)=>{
         })
     }
 }
+
+
+export const userPosts=(userId)=>async(dispatch)=>{
+    try{
+       dispatch({type:"userPostsRequest"});
+       
+       const {data}=await axiosinstance.get(`/userposts/${userId}`);
+
+       dispatch({type:"userPostsSuccess",payload:data.posts})
+
+    }catch(err){
+        dispatch({
+            type:"userPostsFailure",
+            payload:err.response.data.message
+        })
+    }
+}
+
+
+
+
+export const userProfile=(userId)=>async(dispatch)=>{
+    try{
+       dispatch({type:"userProfileRequest"});
+       const {data}=await axiosinstance.get(`/user/${userId}`);
+      
+       dispatch({type:"userProfileSuccess",payload:data.user})
+
+    }catch(err){
+        dispatch({
+            type:"userProfileFailure",
+            payload:err.response.data.message
+        })
+    }
+}
+
+
+
+
+
+export const followAndUnfollowUser=(userId)=>async(dispatch)=>{
+    try{
+       dispatch({type:"followUserRequest"});
+       const {data}=await axiosinstance.get(`/follow/${userId}`);
+      
+       dispatch({type:"followUserSuccess",payload:data.message})
+
+    }catch(err){
+        dispatch({
+            type:"followUserFailure",
+            payload:err.response.data.message
+        })
+    }
+}
+
