@@ -141,11 +141,12 @@ export const createPost = (caption,image) => async (dispatch) => {
             type: 'newpostRequest',
 
         })
-
-       
+          
+        
+        
         const { data } = await axiosinstance.post(`/post/upload`,{
-          caption,
-          image
+            caption,
+            image
         });
         
         
@@ -160,7 +161,7 @@ export const createPost = (caption,image) => async (dispatch) => {
             type: "newpostFailure",
             payload: err.response.data.message,
         })
-        console.log("newpost", err)
+       
     }
 }
 

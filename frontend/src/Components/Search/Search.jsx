@@ -22,7 +22,7 @@ function Search() {
 
     }
 
-
+   
     return (
         <>
             {
@@ -50,7 +50,7 @@ function Search() {
                                     users && users.map(user => {
                                         return <User
                                             key={user._id}
-                                            userId={user.id}
+                                            userId={user._id}
                                             name={user.name}
                                             avatar={user.avtar.url}
                                         />

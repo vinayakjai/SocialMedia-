@@ -1,0 +1,32 @@
+.container{
+   height: 100vh;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   background-color: aqua;
+
+   flex-direction: column;
+}
+
+.contentContainer{
+     height: 30%;
+     width: 40%;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     border-radius: 20px;
+     background-color: white;
+   
+
+}
+
+.HomeButton{
+    border: 1px solid black;
+    color:black;
+
+    margin-top: 10%;
+    padding: 1% 2%;
+    text-decoration: none;
+
+
+}

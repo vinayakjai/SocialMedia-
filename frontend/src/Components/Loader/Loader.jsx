@@ -1,9 +1,11 @@
 import React from "react";
 
-function Loader(){
+function Loader() {
     return (
         <>
-        loader
+            <div className="loadingPage">
+                <div className="loadingCircle"></div>
+            </div>
         </>
     )
 }

@@ -5,11 +5,13 @@ const User = require('../models/User.js');
 const cloudinary=require("cloudinary");
 exports.createPost = async (req, res, next) => {
     try {
-        console.log(req.body);
-       
+        
+     
+     
         const myCloud=await cloudinary.v2.uploader.upload(req.body.image,{
             folder:"posts"
         });
+       
         const newPostData = {
             caption: req.body.caption,
             image: {
@@ -20,7 +22,7 @@ exports.createPost = async (req, res, next) => {
 
 
         }
-
+     
         const newPost = await Post.create(newPostData);
 
         const user = await User.findById(req.user._id);
@@ -36,8 +38,9 @@ exports.createPost = async (req, res, next) => {
     } catch (err) {
         res.status(400).json({
             success: false,
-            message: `->${err}`
+            message: "can't create post"
         })
+       
     }
 }
 

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { Button, Typography } from "@mui/material";
 import { Delete } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteCommentOnPost } from "../../actions/Post";
+import { deleteCommentOnPost, getMyPost } from "../../actions/Post";
 import { getpostoffollowing } from "../../actions/User";
 function CommentCard({
     userId, name, avtar, comment, commentId, postId, isAccount
@@ -14,7 +14,7 @@ function CommentCard({
     const deleteCommentHandler =async () => {
         await dispatch(deleteCommentOnPost(postId,commentId))
         if (isAccount) {
-            console.log("bring my post")
+           dispatch(getMyPost());
         } else {
             dispatch(getpostoffollowing());
         }
